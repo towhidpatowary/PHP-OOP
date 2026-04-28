@@ -1,0 +1,12 @@
+<?php
+namespace Exceptions;
+
+use Exception;
+
+class NotFoundException extends Exception {
+    public function __construct(string $message = "No data found!", int $code = 404){
+        parent::__construct($message, $code);
+    }
+}
+
+?>
