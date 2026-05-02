@@ -1,14 +1,12 @@
 <?php 
 
-require_once __DIR__ . "/database/DatabaseInterface.php";
+require_once __DIR__ . "/DatabaseInterface.php";
 
-class Database {
+class Database implements DatabaseInterface {
     private ?PDO $db_connection = null;
 
     public function __construct(DatabaseInterface $database){
-        if($this->db_connection == null){
-            $this->db_connection = $database->getConnection();
-        }
+        $this->db_connection = $database->getConnection();
     }
 
     public function getConnection(): ?PDO{

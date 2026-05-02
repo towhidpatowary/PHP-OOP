@@ -1,5 +1,5 @@
 <?php include 'Header.php'; ?>
 
-<?php echo $content; ?>
+<?= $content ?>
 
 <?php include 'Footer.php'; ?>

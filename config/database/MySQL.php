@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . "/../../app/Exceptions/DatabaseException.php";
+
+use Exceptions\DatabaseException;
 
 class MySQL implements DatabaseInterface {
     private ?PDO $conn = null;
@@ -26,7 +29,7 @@ class MySQL implements DatabaseInterface {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
         }catch (PDOException $e){
-            die("Database connection failed: ". $e->getMessage());
+            throw new DatabaseException("Database connection failed: ". $e->getMessage());
         }
     }
 

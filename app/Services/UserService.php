@@ -1,53 +1,35 @@
 <?php
+declare(strict_types=1);
+
 namespace Services;
-require_once  __DIR__ . "/../Repositories/UserRepo.php";
-use Exceptions\DatabaseException;
-use Exceptions\NotFoundException;
-use Repositories\UserRepo;
+require_once  __DIR__ . "/../Repositories/Interfaces/UserRepoInterface.php";
+require_once __DIR__ . "/Interfaces/UserServiceInterface.php";
+
+use Repositories\Interfaces\UserRepoInterface;
 use Requests\UserRequest;
+use Services\Interfaces\UserServiceInterface;
 
-class UserService extends Service {
-    public static function getAll(){
-        $userRepo = new UserRepo();
-        return $userRepo->getAll();
+class UserService extends Service implements UserServiceInterface {
+    private UserRepoInterface $userRepo;
+    public function __construct(UserRepoInterface $REPO){
+        $this->userRepo = $REPO;
     }
-    public static function find(int $id){
-        try{
-            $userRepo = new UserRepo();
-            return $userRepo->findOrFail($id);
-        }catch (NotFoundException $e){
-            echo $e->getMessage();
-        }
+    public function getAll(): array {
+        return $this->userRepo->getAll();
     }
-    public static function store(UserRequest $request){
-        try{
-            $userRepo = new UserRepo();
-            $userRepo->store($request);
-        }catch (DatabaseException $e){
-            echo $e->getMessage();
-        }
-
-        return true;
+    public function find(int $id): array {
+        return $this->userRepo->findOrFail($id);
     }
-    public static function update(int $id, UserRequest $request){
-        try{
-            $userRepo = new UserRepo();
-            $userRepo->update($id, $request);
-        }catch (NotFoundException $e){
-            echo $e->getMessage();
-        }catch (DatabaseException $e){
-            echo $e->getMessage();
-        }
-
-        return true;
+    public function store(UserRequest $request): bool {
+        $request->validate($request->request());
+        return $this->userRepo->store($request);
     }
-    public static function delete(int $id){
-        try{
-            $userRepo = new UserRepo();
-            return $userRepo->delete($id);
-        }catch (NotFoundException $e){
-            echo $e->getMessage();
-        }
+    public function update(int $id, UserRequest $request) : bool {
+        $request->validate($request->request());
+        return $this->userRepo->update($id, $request);
+    }
+    public function delete(int $id): bool {
+        return $this->userRepo->delete($id);
     }
 }
 ?>

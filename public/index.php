@@ -1,77 +1,37 @@
 <?php
+require_once __DIR__ . "/../app/Exceptions/DatabaseException.php";
+require_once __DIR__ . "/../app/Exceptions/NotFoundException.php";
+require_once __DIR__ . "/../app/Exceptions/ValidationException.php";
+require_once __DIR__ . "/../app/Exceptions/ExpiredException.php";
+
 require_once  __DIR__ . "/../app/Controllers/Controller.php";
 require_once  __DIR__ . "/../app/Controllers/UserController.php";
+require_once __DIR__ . "/../app/Requests/Request.php";
 require_once __DIR__ . "/../app/Requests/UserRequest.php";
+require_once __DIR__ . "/../app/Services/Service.php";
+require_once __DIR__ . "/../app/Services/UserService.php";
+require_once __DIR__ . "/../app/Repositories/UserRepo.php";
+require_once __DIR__ . "/../app/Models/User.php";
+
+require  __DIR__ . "/../config/Database.php";
+require  __DIR__ . "/../config/database/MySQL.php";
+
+require_once  __DIR__ . "/../app/Helpers/GlobalMethods.php";
 
 use Controllers\UserController;
-use Requests\UserRequest;
-function view($path, $data = []) {
-        extract($data);
-        ob_start();
-        require "../views/{$path}.php";
-        return ob_get_clean();
-}
-function redirect($path, $data = []) {
-        $query = '';
-        foreach($data as $key => $q){
-            $query = "&{$key}={$q}";
-        }
-        header("Location: index.php?action={$path}{$query}");
-        exit;
-}
+use Models\User;
+use Repositories\UserRepo;
+use Services\UserService;
+
+// Passing Dependency
+$db = new Database(new MySQL());
+
+$userModel = new User();
+$userRepo = new UserRepo($userModel, $db);
+$userService = new UserService($userRepo);
+$userController = new UserController($userService);
 
 
-$action = $_GET['action'] ?? 'index';
-$id = $_GET['id'] ?? '';
-
-$content = "";
-
-switch ($action) {
-    case 'user_list':
-        $userController = new UserController();
-        $content = $userController->index();
-    break;
-    case 'create_user':
-        $userController = new UserController();
-        $content = $userController->create();
-    break;
-    case 'store_user':
-        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-            redirect("users/create_user");
-        }
-
-        $name = $_POST['name'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-
-        $userRequest = new UserRequest($name, $phone);
-        $userController = new UserController();
-        $userController->store($userRequest);
-    break;
-    case 'user_edit':
-        $userController = new UserController();
-        $content = $userController->edit($id);
-    break;
-    case 'update_user':
-        if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-            redirect("users/user_edit", ['id' => $id]);
-        }
-
-        $name = $_POST['name'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-
-        $userRequest = new UserRequest($name, $phone);
-        $userController = new UserController();
-        $userController->update($id, $userRequest);
-    break;
-    case 'delete_user':
-        $userController = new UserController();
-        $userController->delete($id);
-    break;
-    default :
-        $content = view("Dashboard");
-    break;
-}
-
-require "../views/layouts/Layout.php";
+require_once __DIR__ ."/../routes/web.php";
 
 ?>
