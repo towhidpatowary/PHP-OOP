@@ -1,9 +1,7 @@
 <?php 
 namespace App\Repositories;
 
-require_once __DIR__ . "/../../config/DatabaseInterface.php";
-
-use DatabaseInterface;
+use Core\Database\DatabaseInterface;
 use PDO;
 
 abstract class Repository {

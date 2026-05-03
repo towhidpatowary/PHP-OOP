@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-require_once __DIR__ . "/../../config/DatabaseInterface.php";
-
-use DatabaseInterface;
 use App\Exceptions\DatabaseException;
 use App\Exceptions\NotFoundException;
 use App\Models\Model;
+use Core\Database\DatabaseInterface;
 use PDO;
 use App\Repositories\Interfaces\UserRepoInterface;
 use App\Requests\UserRequest;

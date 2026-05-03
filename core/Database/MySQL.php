@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . "/../../app/Exceptions/DatabaseException.php";
+namespace Core\Database;
 
 use App\Exceptions\DatabaseException;
+use PDO;
 
 class MySQL implements DatabaseInterface {
     private ?PDO $conn = null;

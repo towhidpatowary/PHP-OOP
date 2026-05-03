@@ -9,6 +9,7 @@ use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Requests\UserRequest;
+use Core\Helpers\View;
 
 class UserController extends Controller {
     private UserServiceInterface $userService;
@@ -20,34 +21,34 @@ class UserController extends Controller {
         try{
             $users = $this->userService->getAll();
 
-            return view("user/userTable", compact('users'), 'Main');
+            return View::render("user/userTable", compact('users'), 'Main');
         }catch (DatabaseException $e){
-            return view("errors/DatabaseError");
+            return View::render("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return view("errors/NotFound");
+            return View::render("errors/NotFound");
         }
     }
 
     public function create() {
         try{
-            return view("user/createUser", [], 'Main');
+            return View::render("user/createUser", [], 'Main');
         }catch (NotFoundException $e){
-            return view("errors/NotFound");
+            return View::render("errors/NotFound");
         }
     }
 
     public function store(UserRequest $request) {
         try{
             $this->userService->store($request);
-            redirect("user_list");
+            $this->redirect("user_list");
         }catch (ValidationException $e){
             $errors = $e->getErrors();
 
-            return view("user/createUser", compact('errors'), 'Main');
+            return View::render("user/createUser", compact('errors'), 'Main');
         }catch (ExpiredException $e){
-            return view("errors/Expired");
+            return View::render("errors/Expired");
         }catch (DatabaseException $e){
-            return view("errors/DatabaseError");
+            return View::render("errors/DatabaseError");
         }
     }
 
@@ -55,11 +56,11 @@ class UserController extends Controller {
         try{
             $user = $this->userService->find($id);
 
-            return view("user/editUser", compact('user'), 'Main');
+            return View::render("user/editUser", compact('user'), 'Main');
         }catch (DatabaseException $e){
-            return view("errors/DatabaseError");
+            return View::render("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return view("errors/NotFound");
+            return View::render("errors/NotFound");
         }
     }
 
@@ -67,15 +68,15 @@ class UserController extends Controller {
         try{
             $this->userService->update($id, $request);
 
-            redirect("user_edit", ['id' => $id]);
+            $this->redirect("user_edit", ['id' => $id]);
         }catch (ValidationException $e){
             $errors = $e->getErrors();
 
-            return view("user/editUser", compact('errors'), 'Main');
+            return View::render("user/editUser", compact('errors'), 'Main');
         }catch (ExpiredException $e){
-            return view("errors/Expired");
+            return View::render("errors/Expired");
         }catch (DatabaseException $e){
-            return view("errors/DatabaseError");
+            return View::render("errors/DatabaseError");
         }
     }
 
@@ -83,11 +84,11 @@ class UserController extends Controller {
         try{
             $this->userService->delete($id);
 
-            redirect("user_list");
+            $this->redirect("user_list");
         }catch (DatabaseException $e){
-            return view("errors/DatabaseError");
+            return View::render("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return view("errors/NotFound");
+            return View::render("errors/NotFound");
         }
     }
 

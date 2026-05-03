@@ -1,14 +1,12 @@
 <?php
 require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/../config/Database.php";
-require_once __DIR__ . "/../config/database/MySQL.php";
-
-require_once __DIR__ . "/../app/Helpers/GlobalMethods.php";
 
 use App\Controllers\UserController;
 use App\Models\User;
 use App\Repositories\UserRepo;
 use App\Services\UserService;
+use Core\Database\Database;
+use Core\Database\MySQL;
 
 // Passing Dependency
 $db = new Database(new MySQL());

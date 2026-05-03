@@ -1,5 +1,6 @@
 <?php
 use App\Requests\UserRequest;
+use Core\Helpers\View;
 
 session_start();
 
@@ -19,7 +20,7 @@ switch ($action) {
         break;
     case 'store_user':
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redirect("create_user");
+            View::render("errors/405");
         }
 
         $userRequest = new UserRequest($_POST);
@@ -30,7 +31,7 @@ switch ($action) {
         break;
     case 'update_user':
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redirect("user_edit", ['id' => $id]);
+            View::render("errors/405");
         }
 
         $userRequest = new UserRequest($_POST);
@@ -40,7 +41,7 @@ switch ($action) {
         $userController->delete($id);
         break;
     default:
-        view("Dashboard", [], 'Main');
+        View::render("Dashboard", [], 'Main');
         break;
 }
 
