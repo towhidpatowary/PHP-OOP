@@ -1,9 +1,7 @@
 <?php
  declare(strict_types=1);
 
- require_once  __DIR__ . "/../Exceptions/NotFoundException.php";
-
- use Exceptions\NotFoundException;
+ use App\Exceptions\NotFoundException;
 
 function view(string $path, array $data = [], ?string $layout = null) {
         $viewPath = __DIR__ . "/../../views/{$path}.php";

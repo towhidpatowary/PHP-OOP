@@ -1,7 +1,7 @@
 <?php
-namespace Services\Interfaces;
+namespace App\Services\Interfaces;
 
-use Requests\UserRequest;
+use App\Requests\UserRequest;
 
 interface UserServiceInterface {
     public function getAll(): array;

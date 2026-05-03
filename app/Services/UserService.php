@@ -1,13 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Services;
-require_once  __DIR__ . "/../Repositories/Interfaces/UserRepoInterface.php";
-require_once __DIR__ . "/Interfaces/UserServiceInterface.php";
+namespace App\Services;
 
-use Repositories\Interfaces\UserRepoInterface;
-use Requests\UserRequest;
-use Services\Interfaces\UserServiceInterface;
+use App\Repositories\Interfaces\UserRepoInterface;
+use App\Requests\UserRequest;
+use App\Services\Interfaces\UserServiceInterface;
 
 class UserService extends Service implements UserServiceInterface {
     private UserRepoInterface $userRepo;

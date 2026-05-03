@@ -1,7 +1,7 @@
 <?php
-namespace Repositories\Interfaces;
+namespace App\Repositories\Interfaces;
 
-use Requests\UserRequest;
+use App\Requests\UserRequest;
 
 
 interface UserRepoInterface {

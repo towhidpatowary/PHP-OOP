@@ -1,5 +1,5 @@
 <?php
-namespace Requests;
+namespace App\Requests;
 
 class Request {
     

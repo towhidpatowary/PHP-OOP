@@ -1,27 +1,14 @@
 <?php
-require_once __DIR__ . "/../app/Exceptions/DatabaseException.php";
-require_once __DIR__ . "/../app/Exceptions/NotFoundException.php";
-require_once __DIR__ . "/../app/Exceptions/ValidationException.php";
-require_once __DIR__ . "/../app/Exceptions/ExpiredException.php";
+require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../config/Database.php";
+require_once __DIR__ . "/../config/database/MySQL.php";
 
-require_once  __DIR__ . "/../app/Controllers/Controller.php";
-require_once  __DIR__ . "/../app/Controllers/UserController.php";
-require_once __DIR__ . "/../app/Requests/Request.php";
-require_once __DIR__ . "/../app/Requests/UserRequest.php";
-require_once __DIR__ . "/../app/Services/Service.php";
-require_once __DIR__ . "/../app/Services/UserService.php";
-require_once __DIR__ . "/../app/Repositories/UserRepo.php";
-require_once __DIR__ . "/../app/Models/User.php";
+require_once __DIR__ . "/../app/Helpers/GlobalMethods.php";
 
-require  __DIR__ . "/../config/Database.php";
-require  __DIR__ . "/../config/database/MySQL.php";
-
-require_once  __DIR__ . "/../app/Helpers/GlobalMethods.php";
-
-use Controllers\UserController;
-use Models\User;
-use Repositories\UserRepo;
-use Services\UserService;
+use App\Controllers\UserController;
+use App\Models\User;
+use App\Repositories\UserRepo;
+use App\Services\UserService;
 
 // Passing Dependency
 $db = new Database(new MySQL());

@@ -1,8 +1,7 @@
 <?php
-namespace Models;
-require_once __DIR__ . "/Model.php";
+namespace App\Models;
 
-use Models\Model;
+use App\Models\Model;
 
 class User extends Model {
     protected $tableName = "users";

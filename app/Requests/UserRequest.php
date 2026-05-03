@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Requests;
+namespace App\Requests;
 
-use Exceptions\ExpiredException;
-use Exceptions\ValidationException;
+use App\Exceptions\ExpiredException;
+use App\Exceptions\ValidationException;
 
 class UserRequest extends Request {
     private array $fields = [];

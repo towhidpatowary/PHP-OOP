@@ -1,21 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Repositories;
-
-require_once __DIR__ . "/Interfaces/UserRepoInterface.php";
-require_once __DIR__ . "/Repository.php";
+namespace App\Repositories;
 
 require_once __DIR__ . "/../../config/DatabaseInterface.php";
 
 use DatabaseInterface;
-use Exceptions\DatabaseException;
-use Exceptions\NotFoundException;
-use Models\Model;
+use App\Exceptions\DatabaseException;
+use App\Exceptions\NotFoundException;
+use App\Models\Model;
 use PDO;
-use Repositories\Interfaces\UserRepoInterface;
-use Requests\UserRequest;
-use Repositories\Repository;
+use App\Repositories\Interfaces\UserRepoInterface;
+use App\Requests\UserRequest;
+use App\Repositories\Repository;
 
 class UserRepo extends Repository implements UserRepoInterface {
     private Model $model;

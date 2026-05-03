@@ -1,11 +1,10 @@
 <?php 
-namespace Repositories;
+namespace App\Repositories;
 
 require_once __DIR__ . "/../../config/DatabaseInterface.php";
 
 use DatabaseInterface;
 use PDO;
-use PDOStatement;
 
 abstract class Repository {
     private ?PDO $conn = null;

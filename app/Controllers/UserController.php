@@ -1,16 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Controllers;
+namespace App\Controllers;
 
-require_once __DIR__ . "/../Services/Interfaces/UserServiceInterface.php";
-
-use Exceptions\DatabaseException;
-use Exceptions\ExpiredException;
-use Exceptions\NotFoundException;
-use Exceptions\ValidationException;
-use Services\Interfaces\UserServiceInterface;
-use Requests\UserRequest;
+use App\Exceptions\DatabaseException;
+use App\Exceptions\ExpiredException;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\ValidationException;
+use App\Services\Interfaces\UserServiceInterface;
+use App\Requests\UserRequest;
 
 class UserController extends Controller {
     private UserServiceInterface $userService;

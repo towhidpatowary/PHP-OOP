@@ -1,9 +1,7 @@
 <?php
-namespace Services;
+namespace App\Services;
 
-require_once  __DIR__ . "/../Repositories/Interfaces/UserRepoInterface.php";
-
-use Repositories\Interfaces\UserRepoInterface;
+use App\Repositories\Interfaces\UserRepoInterface;
 
 class Service {
     private UserRepoInterface $userRepo;
