@@ -3,19 +3,16 @@ namespace Core\Database;
 
 use App\Exceptions\DatabaseException;
 use PDO;
+use PDOException;
 
 class MySQL implements DatabaseInterface {
     private ?PDO $conn = null;
-    private string $host;
-    private string $dbname;
-    private string $username;
-    private string $password;
-    public function __construct(){
-        $this->host = "localhost";
-        $this->dbname = "php_oop";
-        $this->username = "root";
-        $this->password = "";
-
+    public function __construct(
+        private string $host,
+        private string $dbname,
+        private string $username,
+        private string $password
+    ){
         if($this->conn == null){
             $this->conn = $this->connectDB();
         }

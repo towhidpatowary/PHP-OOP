@@ -6,10 +6,13 @@ use App\Models\User;
 use App\Repositories\UserRepo;
 use App\Services\UserService;
 use Core\Database\Database;
-use Core\Database\MySQL;
+use Core\Helpers\Config;
+
+$databaseConfig = Config::get('database');
+
 
 // Passing Dependency
-$db = new Database(new MySQL());
+$db = new Database($databaseConfig['connections'][$databaseConfig['default']]);
 
 $userModel = new User();
 $userRepo = new UserRepo($userModel, $db);
