@@ -1,7 +1,6 @@
 <?php
 namespace App\Providers;
 
-use App\Requests\Request;
 use Core\Container;
 use Core\Database\Database;
 
@@ -11,10 +10,6 @@ class AppServiceProvider {
             $config = config('database');
 
             return new Database($config['connections'][$config['default']]);
-        });
-
-        $container->bind(Request::class, function () {
-            return new Request($_GET, $_POST);
         });
     }
 }

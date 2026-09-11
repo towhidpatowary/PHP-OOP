@@ -35,7 +35,7 @@ class UserController extends Controller {
 
     public function store(UserRequest $request) {
         try{
-            $this->userService->store($request);
+            $this->userService->store($request->validated());
             redirect("/user_list");
         }catch (ValidationException $e){
             $errors = $e->getErrors();
@@ -62,7 +62,7 @@ class UserController extends Controller {
 
     public function update(string $id, UserRequest $request) {
         try{
-            $this->userService->update($id, $request);
+            $this->userService->update($id, $request->validated());
 
             redirect("/user_edit/{$id}");
         }catch (ValidationException $e){

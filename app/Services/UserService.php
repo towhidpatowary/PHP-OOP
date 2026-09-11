@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\UserRepo;
-use App\Requests\UserRequest;
 use App\Services\Interfaces\UserServiceInterface;
 
 class UserService extends Service implements UserServiceInterface {
@@ -15,13 +14,11 @@ class UserService extends Service implements UserServiceInterface {
     public function find(string $id): array {
         return $this->userRepo->findOrFail($id);
     }
-    public function store(UserRequest $request): bool {
-        $request->validate($request->request());
-        return $this->userRepo->store($request);
+    public function store(array $data): bool {
+        return $this->userRepo->store($data);
     }
-    public function update(string $id, UserRequest $request) : bool {
-        $request->validate($request->request());
-        return $this->userRepo->update($id, $request);
+    public function update(string $id, array $data) : bool {
+        return $this->userRepo->update($id, $data);
     }
     public function delete(string $id): bool {
         return $this->userRepo->delete($id);

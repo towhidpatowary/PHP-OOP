@@ -9,7 +9,6 @@ use App\Models\User;
 use Core\Database\Database;
 use PDO;
 use App\Repositories\Interfaces\UserRepoInterface;
-use App\Requests\UserRequest;
 use App\Repositories\Repository;
 
 class UserRepo extends Repository implements UserRepoInterface {
@@ -37,12 +36,12 @@ class UserRepo extends Repository implements UserRepoInterface {
 
         return $user;
     }
-    public function store(UserRequest $request): bool {
+    public function store(array $data): bool {
         $fillable = $this->model->fillable();
         $columns = implode(', ', $fillable);
         $placeholder = implode(', ' , array_fill(0, count($fillable), '?'));
 
-        $values = array_map(fn($field) => $request->$field ?? null, $fillable);
+        $values = array_map(fn($field) => $data[$field] ?? null, $fillable);
 
         $sql = "INSERT INTO {$this->model->tableName()} ({$columns}) VALUES ({$placeholder})";
         $stmt = $this->conn->prepare($sql);
@@ -54,7 +53,7 @@ class UserRepo extends Repository implements UserRepoInterface {
 
         return $store;
     }
-    public function update(string $id, UserRequest $request): bool {
+    public function update(string $id, array $data): bool {
         $this->findOrFail($id);
 
         $fillable = $this->model->fillable();
@@ -62,7 +61,7 @@ class UserRepo extends Repository implements UserRepoInterface {
         $placeholder = array_map(fn($field) => "{$field} = ?" , $fillable);
         $columns = implode(', ', $placeholder);
 
-        $values = array_map(fn($field) => $request->$field ?? null , $fillable);
+        $values = array_map(fn($field) => $data[$field] ?? null , $fillable);
         $values[] = $id;
 
         $sql = "UPDATE {$this->model->tableName()} SET {$columns} WHERE id = ?";
