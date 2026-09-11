@@ -13,9 +13,9 @@
         <aside class="w-64 bg-white shadow-md">
             <div class="p-6 font-bold text-purple-700 text-2xl">AdminPanel</div>
             <nav class="mt-8">
-                <a href="?action=index" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Dashboard</a>
-                <a href="?action=user_list" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Users List</a>
-                <a href="?action=create_user" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Create User</a>
+                <a href="<?= url('/') ?>" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Dashboard</a>
+                <a href="<?= url('user_list') ?>" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Users List</a>
+                <a href="<?= url('create_user') ?>" class="block py-3 px-6 text-gray-700 hover:bg-purple-100">Create User</a>
             </nav>
         </aside>
 
@@ -25,12 +25,15 @@
             <header class="bg-white shadow-md p-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold text-purple-700">                
                 <?php 
-                    $action = $_GET['action'] ?? 'index';
+                    $basePath = config('app')['base_path'] ?? '';
+                    $serverUri = $_SERVER['REQUEST_URI'];
+
+                    $action = str_replace($basePath, '', $serverUri);
                     switch ($action) {
-                        case 'user_list':
+                        case '/user_list':
                             echo "User List";
                         break;
-                        case 'create_user':
+                        case '/create_user':
                             echo "Create User";
                         break;
                         default :

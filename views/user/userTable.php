@@ -16,8 +16,8 @@
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= $user['name'] ?></td>
                         <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium text-gray-900"><?= $user['phone'] ?></td>
                         <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
-                            <a href=<?= "?action=user_edit&id={$user['id']}" ?> class="text-indigo-600 hover:text-indigo-900 px-2">Edit</a>
-                            <a href=<?= "?action=delete_user&id={$user['id']}" ?> class="text-red-600 hover:text-red-900 px-2">Delete</a>
+                            <a href=<?= url("/user_edit/{$user['id']}") ?> class="text-indigo-600 hover:text-indigo-900 px-2">Edit</a>
+                            <a href=<?= url("/delete_user/{$user['id']}") ?> class="text-red-600 hover:text-red-900 px-2">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -7,88 +7,84 @@ use App\Exceptions\DatabaseException;
 use App\Exceptions\ExpiredException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
-use App\Services\Interfaces\UserServiceInterface;
 use App\Requests\UserRequest;
-use Core\Helpers\View;
+use App\Services\UserService;
 
 class UserController extends Controller {
-    private UserServiceInterface $userService;
-    public function __construct(UserServiceInterface $SERVICE) {
-        $this->userService = $SERVICE;
-    }
+    public function __construct(private UserService $userService) {}
 
     public function index() {
         try{
             $users = $this->userService->getAll();
 
-            return View::render("user/userTable", compact('users'), 'Main');
+            return view("user/userTable", compact('users'), 'Main');
         }catch (DatabaseException $e){
-            return View::render("errors/DatabaseError");
+            return view("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return View::render("errors/NotFound");
+            return view("errors/NotFound");
         }
     }
 
     public function create() {
         try{
-            return View::render("user/createUser", [], 'Main');
+            return view("user/createUser", [], 'Main');
         }catch (NotFoundException $e){
-            return View::render("errors/NotFound");
+            return view("errors/NotFound");
         }
     }
 
     public function store(UserRequest $request) {
         try{
             $this->userService->store($request);
-            $this->redirect("user_list");
+            redirect("/user_list");
         }catch (ValidationException $e){
             $errors = $e->getErrors();
 
-            return View::render("user/createUser", compact('errors'), 'Main');
+            return view("user/createUser", compact('errors'), 'Main');
         }catch (ExpiredException $e){
-            return View::render("errors/Expired");
+            return view("errors/Expired");
         }catch (DatabaseException $e){
-            return View::render("errors/DatabaseError");
+            return view("errors/DatabaseError");
         }
     }
 
-    public function edit(int $id) {
+    public function edit(string $id) {
         try{
             $user = $this->userService->find($id);
 
-            return View::render("user/editUser", compact('user'), 'Main');
+            return view("user/editUser", compact('user', 'id'), 'Main');
         }catch (DatabaseException $e){
-            return View::render("errors/DatabaseError");
+            return view("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return View::render("errors/NotFound");
+            return view("errors/NotFound");
         }
     }
 
-    public function update(int $id, UserRequest $request) {
+    public function update(string $id, UserRequest $request) {
         try{
             $this->userService->update($id, $request);
 
-            $this->redirect("user_edit", ['id' => $id]);
+            redirect("/user_edit/{$id}");
         }catch (ValidationException $e){
             $errors = $e->getErrors();
 
-            return View::render("user/editUser", compact('errors'), 'Main');
+            return view("user/editUser", compact('errors'), 'Main');
         }catch (ExpiredException $e){
-            return View::render("errors/Expired");
+            return view("errors/Expired");
         }catch (DatabaseException $e){
-            return View::render("errors/DatabaseError");
+            return view("errors/DatabaseError");
         }
     }
 
-    public function delete(int $id) {
+    public function delete(string $id) {
         try{
             $this->userService->delete($id);
 
-            $this->redirect("user_list");
+            redirect("user_list");
         }catch (DatabaseException $e){
-            return View::render("errors/DatabaseError");
+            return view("errors/DatabaseError");
         }catch (NotFoundException $e){
-            return View::render("errors/NotFound");
+            return view("errors/NotFound");
         }
     }
 

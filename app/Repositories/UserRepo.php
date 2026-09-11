@@ -5,19 +5,16 @@ namespace App\Repositories;
 
 use App\Exceptions\DatabaseException;
 use App\Exceptions\NotFoundException;
-use App\Models\Model;
-use Core\Database\DatabaseInterface;
+use App\Models\User;
+use Core\Database\Database;
 use PDO;
 use App\Repositories\Interfaces\UserRepoInterface;
 use App\Requests\UserRequest;
 use App\Repositories\Repository;
 
 class UserRepo extends Repository implements UserRepoInterface {
-    private Model $model;
     private ?PDO $conn = null;
-    public function __construct(Model $model, DatabaseInterface $db){
-        $this->model = $model;
-
+    public function __construct(Database $db, private User $model){
         $this->conn = $db->getConnection();
     }
     public function getAll(): array {
@@ -28,7 +25,7 @@ class UserRepo extends Repository implements UserRepoInterface {
 
         return $users;
     }
-    public function findOrFail(int $id): array {
+    public function findOrFail(string $id): array {
         $sql = "SELECT * FROM {$this->model->tableName()} where id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
@@ -57,7 +54,7 @@ class UserRepo extends Repository implements UserRepoInterface {
 
         return $store;
     }
-    public function update(int $id, UserRequest $request): bool {
+    public function update(string $id, UserRequest $request): bool {
         $this->findOrFail($id);
 
         $fillable = $this->model->fillable();
@@ -78,7 +75,7 @@ class UserRepo extends Repository implements UserRepoInterface {
 
         return $update;
     }
-    public function delete(int $id): bool {
+    public function delete(string $id): bool {
         $this->findOrFail($id);
 
         $sql = "DELETE FROM {$this->model->tableName()} WHERE id = ?";

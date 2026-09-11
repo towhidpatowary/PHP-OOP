@@ -11,9 +11,9 @@ class UserRequest extends Request {
 
     private array $errors = [];
 
-    public function __construct(array $request)
+    public function __construct()
     {
-       $this->fields = $request;
+       $this->fields = $_POST;
     }
 
     public function validate(array $request): void

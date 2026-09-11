@@ -1,6 +1,6 @@
 <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-6 text-gray-800">Create User</h1>
-    <form action=<?php echo "?action=update_user&id={$_GET['id']}"; ?> method="post" class="space-y-4">
+    <form action='<?= url("/update_user/{$id}") ?>' method="post" class="space-y-4">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['CSRF_TOKEN']) ?>" />
         <div>
             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>

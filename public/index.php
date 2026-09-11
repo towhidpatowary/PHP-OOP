@@ -1,25 +1,29 @@
 <?php
 require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../bootstrap/helpers.php";
 
-use App\Controllers\UserController;
-use App\Models\User;
-use App\Repositories\UserRepo;
-use App\Services\UserService;
-use Core\Database\Database;
-use Core\Helpers\Config;
+use App\Providers\AppServiceProvider;
+use Core\Container;
+use Core\Router;
 
-$databaseConfig = Config::get('database');
+$container = new Container();
+$appServiceProvider = new AppServiceProvider();
+$appServiceProvider->register($container);
+
+session_start();
+
+if(!isset($_SESSION['CSRF_TOKEN'])){
+    $_SESSION['CSRF_TOKEN'] = bin2hex(random_bytes(32));
+}
+
+$method = $_SERVER['REQUEST_METHOD'];
+$basePath = config('app')['app_url'] ?? '';
+$serverUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+$action = str_replace($basePath, '', $serverUri);
 
 
-// Passing Dependency
-$db = new Database($databaseConfig['connections'][$databaseConfig['default']]);
+require_once __DIR__ .'/../routes/web.php';
 
-$userModel = new User();
-$userRepo = new UserRepo($userModel, $db);
-$userService = new UserService($userRepo);
-$userController = new UserController($userService);
-
-
-require_once __DIR__ ."/../routes/web.php";
-
+Router::dispatch($container, $method, $action);
 ?>
